@@ -24,6 +24,8 @@ int catu(char *arg1);
 int catv(char *arg1);
 int diru(char *arg1);
 int dirv(char *arg1);
+int delu(char *arg1);
+int delv(char *arg1);
 
 int main()
 {
@@ -108,6 +110,13 @@ int executecmd(char *linea)
 		}
 		else if(isinunix(arg1))
 			diru(&arg1[6]);
+	}
+	//comando delete
+	if(strcmp(cmd,"delete")==0){
+		if(isinunix(arg1))
+			delu(&arg1[6]);
+		else
+			delv(arg1);
 	}
 	return(1);
 }
@@ -307,4 +316,18 @@ int dirv(char *dir)
 
 	vdclosedir(dd);	
 }
-
+//Elimina archivo de disco virtual
+int delv(char *arg1){
+	vdunlink(arg1);
+}
+//Elimina archivo de unix
+int delu(char *arg1){
+	int ret = remove(arg1);
+	if(ret == 0)
+		printf("Archivo eliminado\n");
+	else
+		printf("Fallo al eliminar archivo\n");
+	
+	return ret;
+		
+}
